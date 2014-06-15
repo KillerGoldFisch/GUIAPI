@@ -55,8 +55,10 @@ public class MenuInteractEvent extends Event{
 	 * @return The button name, null if cancelled.
 	 */
 	public String getButtonName(){
-		if (!cancelled){
-			return buttonItem.getItemMeta().getDisplayName();
+		if (!cancelled && buttonItem.hasItemMeta()){
+			if (buttonItem.getItemMeta().hasDisplayName()){
+				return buttonItem.getItemMeta().getDisplayName();
+			}
 		}
 		return null;
 	}
@@ -75,8 +77,10 @@ public class MenuInteractEvent extends Event{
 	 * @return The given description to the clicked button, null if empty or cancelled.
 	 */
 	public List<String> getButtonDescription(){
-		if (!cancelled){
-			return buttonItem.getItemMeta().getLore();
+		if (!cancelled && buttonItem.hasItemMeta()){
+			if (buttonItem.getItemMeta().hasLore()){
+				return buttonItem.getItemMeta().getLore();
+			}
 		}
 		return null;
 	}
