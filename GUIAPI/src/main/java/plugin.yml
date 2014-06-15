@@ -9,11 +9,11 @@ commands:
    toggleTestMode:
       description: Toggles whether debug messages are on (only use if you know what you’re doing)
       usage: /<command>
-      permission: GUIAPI.toggleTestMode
+      permission: GUIAPI.toggletestmode
       permission-message: You don't have permission
 
 permissions:
    GUIAPI.*:
         description: Gives access to all GUIAPI permissions
-   GUIAPI.toggleTestMode:
+   GUIAPI.toggletestmode:
       description: Toggles whether debug messages are on (only use if you know what you’re doing)
