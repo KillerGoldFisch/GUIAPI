@@ -9,6 +9,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+/**
+ * <b>
+ * GUIAPI Object:
+ * </b>
+ * Main object for this API's actual plugin features.
+ */
 
 public class GUIAPI extends JavaPlugin implements Listener{
 	private static boolean debug = false;

@@ -8,7 +8,13 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
+/**
+ * <b>
+ * MenuInteractEvent Object:
+ * </b>
+ * Activated when a created menu is interacted in
+ *
+ */
 public class MenuInteractEvent extends Event{
 	private static final HandlerList handlers = new HandlerList();
 	private boolean cancelled;
@@ -34,70 +40,118 @@ public class MenuInteractEvent extends Event{
 	public static HandlerList getHandlerList(){
 	    return handlers;
 	}
-	public int getSlot(){//Returns the slot clicked on or -1 if cancelled
+	/**
+	 * Returns the slot clicked on or -1 if cancelled.
+	 * @return The slot number clicked on, -1 if cancelled.
+	 */
+	public int getSlot(){
 		if (!cancelled){
 			return slot;
 		}
 		return -1;
 	}
-	public String getButtonName(){//Returns the button name clicked on or null if cancelled
+	/**
+	 * Returns the button name clicked on or null if cancelled.
+	 * @return The button name, null if cancelled.
+	 */
+	public String getButtonName(){
 		if (!cancelled){
 			return buttonItem.getItemMeta().getDisplayName();
 		}
 		return null;
 	}
-	public ItemStack getButtonItem(){//Returns the item clicked on or null if cancelled
+	/**
+	 * Returns the item clicked on or null if cancelled.
+	 * @return The ItemStack clicked on, null if cancelled.
+	 */
+	public ItemStack getButtonItem(){
 		if (!cancelled){
 			return buttonItem;
 		}
 		return null;
 	}
-	public List<String> getButtonDescription(){//Returns the given description to the clicked button or null if cancelled
+	/**
+	 * Returns the given description to the clicked button or null if cancelled.
+	 * @return The given description to the clicked button, null if empty or cancelled.
+	 */
+	public List<String> getButtonDescription(){
 		if (!cancelled){
 			return buttonItem.getItemMeta().getLore();
 		}
 		return null;
 	}
-	public Player getPlayer(){//Returns the player that interacted with the menu or null if cancelled
+	/**
+	 * Returns the player that interacted with the menu or null if cancelled.
+	 * @return The player that interacted with the menu, null if cancelled.
+	 */
+	public Player getPlayer(){
 		if (!cancelled){
 			return player;
 		}
 		return null;
 	}
-	public ClickType getClickType(){//Returns method that the player activated the button or null if cancelled
+	/**
+	 * Returns method that the player activated the button or null if cancelled.
+	 * @return ClickType used to interact with the menu, null if cancelled.
+	 */
+	public ClickType getClickType(){
 		if (!cancelled){
 			return clickType;
 		}
 		return null;
 	}
-	public int getHotbarButton(){//If ClickType is NUMBER_KEY, it returns the key pressed (0-8), otherwise -1
+	/**
+	 * If ClickType is NUMBER_KEY, it returns the key pressed (0-8), otherwise -1.
+	 * @return The key pressed (0-8), -1 if event is cancelled or if ClickType is not NUMBER_KEY.
+	 */
+	public int getHotbarButton(){
 		if (!cancelled){
 			return numberKey;
 		}
 		return -1;
 	}
-	public Inventory getMenuInventory(){//Returns the menu's inventory or null if cancelled
+	/**
+	 * Returns the menu's inventory or null if cancelled.
+	 * @return A copy of the object associated with the menu's inventory, null if cancelled.
+	 */
+	public Inventory getMenuInventory(){
 		if (!cancelled){
 			return menuInv;
 		}
 		return null;
 	}
-	public String getMenuName(){//Returns menu's name or null if cancelled
+	/**
+	 * Returns menu's name or null if cancelled.
+	 * @return Menu's name, null if cancelled.
+	 */
+	public String getMenuName(){
 		if (!cancelled){
 			return menuInv.getTitle();
 		}
 		return null;
 	}
-	public Menu getMenu(){//Returns the menu object associated with this event or null if cancelled
+	/**
+	 * Returns the menu object associated with this event or null if cancelled.
+	 * @return The menu object associated with this event, null if cancelled.
+	 */
+	public Menu getMenu(){
 		if (!cancelled){
 			return menu;
 		}
 		return null;
 	}
-	public boolean isCancelled(){//Returns whether the event is currently cancelled
+	/**
+	 * Returns whether the event is currently cancelled.
+	 * @return Boolean, whether the event is cancelled.
+	 */
+	public boolean isCancelled(){
 		return cancelled;
 	}
-	public void setCancelled(boolean cancel){//If cancelled, any returns made is set to null and it doesn't toggle the button
+	/**
+	 * If cancelled, any returns made is set to null and it doesn't toggle the button.
+	 * @param cancel Boolean, whether the event should be cancelled.
+	 */
+	public void setCancelled(boolean cancel){
 		cancelled = cancel;
 	}
 }
