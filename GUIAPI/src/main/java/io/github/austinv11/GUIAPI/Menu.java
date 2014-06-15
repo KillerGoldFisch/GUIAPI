@@ -16,6 +16,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class Menu implements Listener{
 	private static String currentAPIVersion = Bukkit.getPluginManager().getPlugin("GUIAPI").getDescription().getVersion();
+	private static boolean debug = GUIAPI.getDebugStatus();
 	private Inventory inv;
 	private Player player;
 	private boolean isOpen = false;
@@ -142,8 +143,15 @@ public class Menu implements Listener{
 		buttons[slot].toggle();
 		refresh();
 	}
-	public static String getAPIVersion(){
+	public static String getAPIVersion(){//Returns the currently implemented version of GUIAPI
 		return currentAPIVersion;
+	}
+	public static boolean debugStatus(){//Returns whether GUIAPI is in debug mode
+		return debug;
+	}
+	public static void setDebugStatus(boolean isDebug){//Sets the debug status of GUIAPI
+		debug = isDebug;
+		GUIAPI.setDebugStatus(isDebug);
 	}
 	@EventHandler
 	private void onInventoryClose(InventoryCloseEvent event){
