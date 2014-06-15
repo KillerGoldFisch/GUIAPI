@@ -296,7 +296,7 @@ public class Menu implements Listener{
 	}
 	@EventHandler
 	private void onInventoryClick(InventoryClickEvent event){
-		if (event.getWhoClicked() == player && isOpen == true){
+		if (event.getWhoClicked() == player && isOpen == true && event.getSlot() < inv.getSize()){
 			MenuInteractEvent calledEvent = new MenuInteractEvent(event.getSlot(), event.getCurrentItem(), (Player) event.getWhoClicked(), event.getClick(), event.getHotbarButton(), inv, this);
 			Bukkit.getServer().getPluginManager().callEvent(calledEvent);
 			event.setCancelled(true);
