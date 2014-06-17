@@ -26,17 +26,21 @@ public class Menu implements Listener{
 	private Inventory inv;
 	private Player player;
 	private boolean isOpen = false;
+	private boolean buttonStatus[];
 	private Button buttons[];
 	private int slotCount = 0;
+	private static Plugin api = Bukkit.getPluginManager().getPlugin("GUIAPI");
 	/**
 	 * Menu object constructor.
 	 * @param p Player involved with this menu.
 	 * @param name Name of the menu.
 	 * @param numberOfSlots Number of slots in the menu (must be either 0 or a multiple of 9).
-	 * @param plugin The plugin instance using this API.
 	 */
-	public Menu(Player p, String name, int numberOfSlots, Plugin plugin/*, String inventoryType*/){
-		Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
+	public Menu(Player p, String name, int numberOfSlots/*, String inventoryType*/){
+		GUIAPI.debugMessage(p, p.getDisplayName());
+		GUIAPI.debugMessage(name, name);
+		GUIAPI.debugMessage(numberOfSlots, ""+numberOfSlots);
+		Bukkit.getServer().getPluginManager().registerEvents(this, api);
 		player = p;
 		initInv(player, name, numberOfSlots);
 	}
@@ -117,7 +121,12 @@ public class Menu implements Listener{
 		itemMeta.setLore(null);
 		itemMeta.setLore(description);
 		item.setItemMeta(itemMeta);
-		buttons[slot].setItem(item);
+		if (buttonStatus[slot] = true){
+			buttons[slot].setItem(item);
+		}else{
+			buttons[slot] = new Button(this, item, slot, false, null, false);
+			buttonStatus[slot] = true;
+		}
 		refresh();
 	}
 	/**
@@ -132,7 +141,12 @@ public class Menu implements Listener{
 		itemMeta.setDisplayName(name);
 		itemMeta.setLore(null);
 		item.setItemMeta(itemMeta);
-		buttons[slot].setItem(item);
+		if (buttonStatus[slot] = true){
+			buttons[slot].setItem(item);
+		}else{
+			buttons[slot] = new Button(this, item, slot, false, null, false);
+			buttonStatus[slot] = true;
+		}
 		refresh();
 	}
 	/**
@@ -141,7 +155,12 @@ public class Menu implements Listener{
 	 * @param item ItemStack used to represent the button.
 	 */
 	public void setButton(int slot, ItemStack item){
-		buttons[slot].setItem(item);
+		if (buttonStatus[slot] = true){
+			buttons[slot].setItem(item);
+		}else{
+			buttons[slot] = new Button(this, item, slot, false, null, false);
+			buttonStatus[slot] = true;
+		}
 		refresh();
 	}
 	/**
@@ -303,7 +322,7 @@ public class Menu implements Listener{
 			//event.setCurrentItem(null);
 			this.closeMenu();
 			this.openMenu();
-			if (buttons[calledEvent.getSlot()] != null && !calledEvent.isCancelled()){
+			if (buttonStatus[calledEvent.getSlot()] != false && !calledEvent.isCancelled()){
 				if (buttons[calledEvent.getSlot()].canToggle()){
 					buttons[calledEvent.getSlot()].toggle();
 					refresh();
@@ -313,8 +332,8 @@ public class Menu implements Listener{
 	}
 	private void refresh(){
 		inv.clear();
-		for (int i = 0; i < buttons.length; i ++){
-			if (buttons[i] != null){
+		for (int i = 0; i < buttonStatus.length; i ++){
+			if (buttonStatus[i] != false){
 				inv.setItem(buttons[i].getSlot(), buttons[i].getItem());
 			}
 		}
@@ -325,16 +344,17 @@ public class Menu implements Listener{
 			slotNum = slotNum + (9 - (slotNum % 9));
 		}
 		for (int i = 0; i < slotNum; i++){
-			buttons[i] = null;
+			buttonStatus[i] = false;
 		}
 		inv = Bukkit.createInventory(player, slotNum, name);
 	}
 	private void addItem(ItemStack item){
-		while (buttons[slotCount] != null){
+		while (buttonStatus[slotCount] != false){
 			slotCount++;
 		}
 		inv.addItem(item);
 		buttons[slotCount] = new Button(this, item, slotCount, false, null, false);
+		buttonStatus[slotCount] = true;
 		slotCount++;
 	}
 }

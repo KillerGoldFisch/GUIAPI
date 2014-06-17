@@ -35,6 +35,17 @@ public class GUIAPI extends JavaPlugin implements Listener{
     public static void setDebugStatus(boolean isDebug){
     	debug = isDebug;
     }
+    /**
+     * Used to broadcast general debug messages.
+     * @param object Any object.
+     * @param message Information you want to display.
+     * @param plugin Plugin instance printing the debug message.
+     */
+    public static void debugMessage(Object object, String message){
+    	if (debug){
+	    	Bukkit.getServer().broadcastMessage("["+ChatColor.RED+"DEBUG"+ChatColor.RESET+"("+ChatColor.GOLD+Thread.currentThread().getStackTrace()[2].getClassName()+"."+Thread.currentThread().getStackTrace()[2].getMethodName()+"():"+Thread.currentThread().getStackTrace()[2].getLineNumber()+ChatColor.RESET+")] "+object.getClass().getSimpleName()+": "+message);
+    	}
+    }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onMenuInteract(MenuInteractEvent event){
     	if (debug){
