@@ -37,6 +37,7 @@ public class Menu implements Listener{
 	 * @param numberOfSlots Number of slots in the menu (must be either 0 or a multiple of 9).
 	 */
 	public Menu(Player p, String name, int numberOfSlots/*, String inventoryType*/){
+		GUIAPI.debugMessage("Initiating Menu with the following variables:");
 		GUIAPI.debugMessage(p, p.getDisplayName());
 		GUIAPI.debugMessage(name, name);
 		GUIAPI.debugMessage(numberOfSlots, ""+numberOfSlots);
@@ -121,7 +122,7 @@ public class Menu implements Listener{
 		itemMeta.setLore(null);
 		itemMeta.setLore(description);
 		item.setItemMeta(itemMeta);
-		if (buttonStatus[slot] = true){
+		if (buttonStatus[slot] == true){
 			buttons[slot].setItem(item);
 		}else{
 			buttons[slot] = new Button(this, item, slot, false, null, false);
@@ -141,7 +142,7 @@ public class Menu implements Listener{
 		itemMeta.setDisplayName(name);
 		itemMeta.setLore(null);
 		item.setItemMeta(itemMeta);
-		if (buttonStatus[slot] = true){
+		if (buttonStatus[slot] == true){
 			buttons[slot].setItem(item);
 		}else{
 			buttons[slot] = new Button(this, item, slot, false, null, false);
@@ -155,7 +156,7 @@ public class Menu implements Listener{
 	 * @param item ItemStack used to represent the button.
 	 */
 	public void setButton(int slot, ItemStack item){
-		if (buttonStatus[slot] = true){
+		if (buttonStatus[slot] == true){
 			buttons[slot].setItem(item);
 		}else{
 			buttons[slot] = new Button(this, item, slot, false, null, false);
@@ -247,6 +248,7 @@ public class Menu implements Listener{
 		itemMeta.setLore(description);
 		item.setItemMeta(itemMeta);
 		buttons[slot].setToggleItem(item);
+		buttons[slot].setToggle(true);
 	}
 	/**
 	 * Sets the item used when the button is (next) toggled.
@@ -332,20 +334,28 @@ public class Menu implements Listener{
 	}
 	private void refresh(){
 		inv.clear();
-		for (int i = 0; i < buttonStatus.length; i ++){
+		for (int i = 0; i < buttonStatus.length; i++){
 			if (buttonStatus[i] != false){
 				inv.setItem(buttons[i].getSlot(), buttons[i].getItem());
 			}
 		}
 	}
 	private void initInv(Player player, String name, int slotNum){
+		GUIAPI.debugMessage("Menu inventory initiated with the following variables:");
+		GUIAPI.debugMessage(player, player.getDisplayName());
+		GUIAPI.debugMessage(name, name);
+		GUIAPI.debugMessage(slotNum, ""+slotNum);
 		if (slotNum % 9 != 0){
 			Bukkit.getServer().getLogger().severe("Please tell your local plugin author: 'You must use a multiple of 9 for a slot number!'");
 			slotNum = slotNum + (9 - (slotNum % 9));
 		}
+		boolean buttonStatus2[] = new boolean[slotNum];
+		Button buttons2[] = new Button[slotNum];
 		for (int i = 0; i < slotNum; i++){
-			buttonStatus[i] = false;
+			buttonStatus2[i] = false;
 		}
+		buttonStatus = buttonStatus2;
+		buttons = buttons2;
 		inv = Bukkit.createInventory(player, slotNum, name);
 	}
 	private void addItem(ItemStack item){

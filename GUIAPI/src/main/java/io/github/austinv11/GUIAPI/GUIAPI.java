@@ -2,7 +2,6 @@ package io.github.austinv11.GUIAPI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
@@ -18,7 +17,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class GUIAPI extends JavaPlugin implements Listener{
 	private static boolean debug = false;
-	private Server server = Bukkit.getServer();
 	@Override
     public void onEnable() {
 		getServer().getPluginManager().registerEvents(this, this);
@@ -39,25 +37,33 @@ public class GUIAPI extends JavaPlugin implements Listener{
      * Used to broadcast general debug messages.
      * @param object Any object.
      * @param message Information you want to display.
-     * @param plugin Plugin instance printing the debug message.
      */
     public static void debugMessage(Object object, String message){
     	if (debug){
-	    	Bukkit.getServer().broadcastMessage("["+ChatColor.RED+"DEBUG"+ChatColor.RESET+"("+ChatColor.GOLD+Thread.currentThread().getStackTrace()[2].getClassName()+"."+Thread.currentThread().getStackTrace()[2].getMethodName()+"():"+Thread.currentThread().getStackTrace()[2].getLineNumber()+ChatColor.RESET+")] "+object.getClass().getSimpleName()+": "+message);
+	    	Bukkit.getServer().broadcastMessage("["+ChatColor.RED+"DEBUG"+ChatColor.RESET+"("+ChatColor.GOLD+Thread.currentThread().getStackTrace()[2].getClassName()+"."+Thread.currentThread().getStackTrace()[2].getMethodName()+":"+Thread.currentThread().getStackTrace()[2].getLineNumber()+ChatColor.RESET+")] "+object.getClass().getSimpleName()+": "+message);
+    	}
+    }
+    /**
+     * Used to broadcast general debug messages.
+     * @param message Information you want to display.
+     */
+    public static void debugMessage(String message){
+    	if (debug){
+	    	Bukkit.getServer().broadcastMessage("["+ChatColor.RED+"DEBUG"+ChatColor.RESET+"("+ChatColor.GOLD+Thread.currentThread().getStackTrace()[2].getClassName()+"."+Thread.currentThread().getStackTrace()[2].getMethodName()+":"+Thread.currentThread().getStackTrace()[2].getLineNumber()+ChatColor.RESET+")] "+" "+message);
     	}
     }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onMenuInteract(MenuInteractEvent event){
     	if (debug){
-    		server.broadcastMessage("Menu"+event.getMenuName());
-    		server.broadcastMessage("Is Menu Open: "+event.getMenu().isMenuOpen());
-    		server.broadcastMessage("Button: "+event.getButtonName());
-    		server.broadcastMessage("Button Item: "+event.getButtonItem().getType().toString());
-    		server.broadcastMessage("Did Button Toggle: "+event.getMenu().isButtonToggled(event.getSlot()));
-    		server.broadcastMessage("Slot: "+event.getSlot());
-    		server.broadcastMessage("ClickType: "+event.getClickType().toString());
-    		server.broadcastMessage("Player: "+event.getPlayer().getDisplayName());
-    		server.broadcastMessage("Is Cancelled: "+event.isCancelled());
+    		debugMessage("Menu"+event.getMenuName());
+    		debugMessage("Is Menu Open: "+event.getMenu().isMenuOpen());
+    		debugMessage("Button: "+event.getButtonName());
+    		debugMessage("Button Item: "+event.getButtonItem().getType().toString());
+    		debugMessage("Did Button Toggle: "+event.getMenu().isButtonToggled(event.getSlot()));
+    		debugMessage("Slot: "+(event.getSlot()+1));
+    		debugMessage("ClickType: "+event.getClickType().toString());
+    		debugMessage("Player: "+event.getPlayer().getDisplayName());
+    		debugMessage("Is Cancelled: "+event.isCancelled());
     	}
     }
     @Override
