@@ -317,19 +317,21 @@ public class Menu implements Listener{
 	}
 	@EventHandler
 	private void onInventoryClick(InventoryClickEvent event){
-		if (event.getWhoClicked() == player && isOpen == true && event.getSlot() < inv.getSize()){
-			MenuInteractEvent calledEvent = new MenuInteractEvent(event.getSlot(), event.getCurrentItem(), (Player) event.getWhoClicked(), event.getClick(), event.getHotbarButton(), inv, this);
-			Bukkit.getServer().getPluginManager().callEvent(calledEvent);
+		if (event.getWhoClicked() == player && isOpen == true){
+			if (event.getSlot() < inv.getSize()){
+				MenuInteractEvent calledEvent = new MenuInteractEvent(event.getSlot(), event.getCurrentItem(), (Player) event.getWhoClicked(), event.getClick(), event.getHotbarButton(), inv, this);
+				Bukkit.getServer().getPluginManager().callEvent(calledEvent);
+				if (buttonStatus[calledEvent.getSlot()] != false && !calledEvent.isCancelled()){
+					if (buttons[calledEvent.getSlot()].canToggle()){
+						buttons[calledEvent.getSlot()].toggle();
+						refresh();
+						}
+					}
+				}	
 			event.setCancelled(true);
 			//event.setCurrentItem(null);
 			this.closeMenu();
 			this.openMenu();
-			if (buttonStatus[calledEvent.getSlot()] != false && !calledEvent.isCancelled()){
-				if (buttons[calledEvent.getSlot()].canToggle()){
-					buttons[calledEvent.getSlot()].toggle();
-					refresh();
-				}
-			}
 		}
 	}
 	private void refresh(){
