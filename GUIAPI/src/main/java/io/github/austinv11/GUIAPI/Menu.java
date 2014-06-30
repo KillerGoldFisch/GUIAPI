@@ -343,10 +343,10 @@ public class Menu implements Listener{
 		}
 	}
 	private void initInv(Player player, String name, int slotNum){
-		GUIAPI.debugMessage("Menu inventory initiated with the following variables:");
+		/*GUIAPI.debugMessage("Menu inventory initiated with the following variables:");
 		GUIAPI.debugMessage(player, player.getDisplayName());
 		GUIAPI.debugMessage(name, name);
-		GUIAPI.debugMessage(slotNum, ""+slotNum);
+		GUIAPI.debugMessage(slotNum, ""+slotNum);*/
 		if (slotNum % 9 != 0){
 			Bukkit.getServer().getLogger().severe("Please tell your local plugin author: 'You must use a multiple of 9 for a slot number!'");
 			slotNum = slotNum + (9 - (slotNum % 9));
