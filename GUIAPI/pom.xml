@@ -4,7 +4,7 @@
 
   <groupId>io.github.austinv11</groupId>
   <artifactId>GUIAPI</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <packaging>jar</packaging>
 
   <name>GUIAPI</name>
