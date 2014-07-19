@@ -206,9 +206,8 @@ public class Menu implements Listener{
 	 * Closes the menu for the menu's player (if its open).
 	 */
 	public void closeMenu(){
-		if (isOpen){
-			player.closeInventory();
-		}
+		player.closeInventory();
+		isOpen = false;
 	}
 	/**
 	 * Returns the player involved in this menu.
