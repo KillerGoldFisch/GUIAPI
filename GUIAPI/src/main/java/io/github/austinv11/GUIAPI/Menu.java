@@ -318,19 +318,23 @@ public class Menu implements Listener{
 	private void onInventoryClick(InventoryClickEvent event){
 		if (event.getWhoClicked() == player && isOpen == true){
 			if (event.getSlot() < inv.getSize()){
-				MenuInteractEvent calledEvent = new MenuInteractEvent(event.getSlot(), event.getCurrentItem(), (Player) event.getWhoClicked(), event.getClick(), event.getHotbarButton(), inv, this);
-				Bukkit.getServer().getPluginManager().callEvent(calledEvent);
-				if (buttonStatus[calledEvent.getSlot()] != false && !calledEvent.isCancelled()){
-					if (buttons[calledEvent.getSlot()].canToggle()){
-						buttons[calledEvent.getSlot()].toggle();
-						refresh();
+				try{
+					MenuInteractEvent calledEvent = new MenuInteractEvent(event.getSlot(), event.getCurrentItem(), (Player) event.getWhoClicked(), event.getClick(), event.getHotbarButton(), inv, this);
+					Bukkit.getServer().getPluginManager().callEvent(calledEvent);
+					if (buttonStatus[calledEvent.getSlot()] != false && !calledEvent.isCancelled()){
+						if (buttons[calledEvent.getSlot()].canToggle()){
+							buttons[calledEvent.getSlot()].toggle();
+							refresh();
+							}
 						}
+					event.setCancelled(true);
+					//event.setCurrentItem(null);
+					this.closeMenu();
+					if (!calledEvent.isCancelled()){
+						this.openMenu();
 					}
-				}	
-			event.setCancelled(true);
-			//event.setCurrentItem(null);
-			this.closeMenu();
-			this.openMenu();
+				}catch (ArrayIndexOutOfBoundsException e){}
+			}	
 		}
 	}
 	private void refresh(){
