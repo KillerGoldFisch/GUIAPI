@@ -152,7 +152,7 @@ public class MenuInteractEvent extends Event{
 		return cancelled;
 	}
 	/**
-	 * If cancelled, any returns made is set to null and it doesn't toggle the button.
+	 * If cancelled, any returns made is set to null, it doesn't toggle the button and it closes the inventory.
 	 * @param cancel Boolean, whether the event should be cancelled.
 	 */
 	public void setCancelled(boolean cancel){
