@@ -18,6 +18,8 @@ import org.bukkit.inventory.ItemStack;
 public class MenuInteractEvent extends Event{
 	private static final HandlerList handlers = new HandlerList();
 	private boolean cancelled;
+	private boolean isClosed;
+	private Menu newMenu;
 	private int slot,numberKey;
 	private ItemStack buttonItem;
 	private Player player;
@@ -33,6 +35,8 @@ public class MenuInteractEvent extends Event{
 		menuInv = menuInventory;
 		cancelled = false;
 		menu = menu2;
+		isClosed = false;
+		newMenu = null;
 	}
 	public HandlerList getHandlers(){
 	    return handlers;
@@ -145,6 +149,66 @@ public class MenuInteractEvent extends Event{
 		return null;
 	}
 	/**
+	 * Closes the menu involved with this event.
+	 */
+	public void closeMenu(){
+		isClosed = true;
+		//player.closeInventory();
+	}
+	/**
+	 * Returns whether the menu is closed.
+	 * @return Whether the menu is closed.
+	 */
+	public boolean isMenuClosed(){
+		return isClosed;
+	}
+	/**
+	 * Reopens the menu if it was closed, WARNING: May be unreliable.
+	 */
+	public void openMenu(){
+		if (isClosed){
+			this.getMenu().openMenu();
+		}
+	}
+	/**
+	 * Closes the current menu and opens the provided one.
+	 * @param menu
+	 */
+	public void openMenu(Menu menu){
+		isClosed = true;
+		newMenu = menu;
+		player.closeInventory();
+		menu.openMenu();
+	}
+	/**
+	 * Gets whether a new menu is opened.
+	 * @return Whether a new menu is opened.
+	 */
+	public boolean isNewMenuOpened(){
+		if (newMenu == null){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	/**
+	 * Gets the new menu.
+	 * @return The new menu, null if none is present.
+	 */
+	public Menu getNewMenu(){
+		return newMenu;
+	}
+	/**
+	 * Closes the new menu and reopens the one that fired the event.
+	 */
+	public void closeNewMenu(){
+		if (newMenu != null){
+			newMenu.closeMenu();
+			newMenu = null;
+			this.openMenu();
+		}
+	}
+	/**
 	 * Returns whether the event is currently cancelled.
 	 * @return Boolean, whether the event is cancelled.
 	 */
@@ -152,7 +216,7 @@ public class MenuInteractEvent extends Event{
 		return cancelled;
 	}
 	/**
-	 * If cancelled, any returns made is set to null, it doesn't toggle the button and it closes the inventory.
+	 * If cancelled, any returns made is set to null, it doesn't toggle the button.
 	 * @param cancel Boolean, whether the event should be cancelled.
 	 */
 	public void setCancelled(boolean cancel){

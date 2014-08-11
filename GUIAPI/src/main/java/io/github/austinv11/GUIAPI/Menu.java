@@ -206,8 +206,10 @@ public class Menu implements Listener{
 	 * Closes the menu for the menu's player (if its open).
 	 */
 	public void closeMenu(){
-		player.closeInventory();
-		isOpen = false;
+		if (isOpen){
+			player.closeInventory();
+			isOpen = false;
+		}
 	}
 	/**
 	 * Returns the player involved in this menu.
@@ -329,8 +331,10 @@ public class Menu implements Listener{
 						}
 					event.setCancelled(true);
 					//event.setCurrentItem(null);
-					this.closeMenu();
-					if (!calledEvent.isCancelled()){
+					if (!calledEvent.isNewMenuOpened()){
+						this.closeMenu();
+					}
+					if (!calledEvent.isMenuClosed()){
 						this.openMenu();
 					}
 				}catch (ArrayIndexOutOfBoundsException e){}
